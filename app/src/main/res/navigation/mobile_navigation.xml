@@ -10,16 +10,20 @@
         android:name="in.ghsvkd.bellsystem.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
-
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="in.ghsvkd.bellsystem.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
+        android:id="@+id/nav_conf"
+        android:name="in.ghsvkd.bellsystem.ui.ConfigurationFragment"
+        android:label="Configurations"
+        tools:layout="@layout/fragment_configuration" />
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="in.ghsvkd.bellsystem.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_sound"
+        android:name="in.ghsvkd.bellsystem.ui.SoundFragment"
+        android:label="Sounds"
+        tools:layout="@layout/fragment_sound" />
+    <fragment
+        android:id="@+id/nav_exit"
+        android:name="in.ghsvkd.bellsystem.ui.ExitFragment"
+        android:label="Exit"
+        tools:layout="@layout/fragment_exit" />
+
 </navigation>

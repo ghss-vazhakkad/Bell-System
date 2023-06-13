@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="in.ghsvkd.bellsystem">
+    
+    <uses-permission
+        android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 	
     <application
         android:allowBackup="true"
@@ -20,6 +23,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ControlActivity"
+            android:exported="true"
+            android:label="Control Panel"
+            android:launchMode="singleInstance"
+            android:showOnLockScreen="true"
+            android:theme="@style/Theme.Application.NoActionBar">
+        </activity>
+        <service
+            android:name=".AlarmService"/>
     </application>
 
 </manifest>
