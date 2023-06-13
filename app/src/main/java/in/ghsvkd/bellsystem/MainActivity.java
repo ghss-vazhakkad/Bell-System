@@ -2,10 +2,14 @@ package in.ghsvkd.bellsystem;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
+import android.view.Window;
+import android.view.WindowManager;
+import androidx.appcompat.app.AlertDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -17,6 +21,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import in.ghsvkd.bellsystem.databinding.ActivityMainBinding;
+import in.ghsvkd.bellsystem.obj.Configuration;
+import java.io.File;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,6 +51,24 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         
+        File configs = new File(getFilesDir(),"Configs");
+        if(!configs.exists()) setup();
+    }
+    
+    public void setup(){
+        File configs = new File(getFilesDir(),"Configs");
+        configs.mkdirs();
+        try{
+            Configuration conf = new Configuration("Default");
+            conf.writeToRoot(configs);
+        }catch(Throwable e){
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
+            adb.setTitle(e.getMessage());
+            adb.setMessage(Log.getStackTraceString(e));
+            adb.setCancelable(false);
+            adb.create().show();
+            
+        }
     }
 
     @Override
