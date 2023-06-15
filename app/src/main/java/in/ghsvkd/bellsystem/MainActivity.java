@@ -9,6 +9,7 @@ import android.view.Menu;
 
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         
+        
         File configs = new File(getFilesDir(),"Configs");
         if(!configs.exists()) setup();
     }
@@ -60,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
         configs.mkdirs();
         try{
             Configuration conf = new Configuration("Default");
+            Configuration.TimeData tdata = new Configuration.TimeData();
+            tdata.time = new java.util.Date();
+            conf.timeDataList.add(tdata);
             conf.writeToRoot(configs);
         }catch(Throwable e){
             AlertDialog.Builder adb = new AlertDialog.Builder(this);
@@ -69,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
             adb.create().show();
             
         }
+        
+        
     }
 
     @Override

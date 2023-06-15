@@ -14,7 +14,6 @@ public class ExitFragment extends Fragment{
     @MainThread
     @Nullable
     public View onCreateView(LayoutInflater arg0, ViewGroup arg1, Bundle arg2) {
-        getActivity().startService(new Intent(getActivity(),AlarmService.class));
         getActivity().finish();
         
         return super.onCreateView(arg0, arg1, arg2);

@@ -4,9 +4,15 @@ import android.app.Service;
 import android.os.IBinder;
 import android.content.Intent;
 import android.widget.Toast;
+import in.ghsvkd.bellsystem.obj.Configuration;
+import java.io.File;
+import java.util.List;
 
 public class AlarmService extends Service {
 
+    public static boolean active;
+    public static List<Configuration> configurations;
+    
     @Override
     public IBinder onBind(Intent arg0) {
         
@@ -21,18 +27,15 @@ public class AlarmService extends Service {
      
     @Override
     public void onStart(Intent arg0, int arg1) {
-        int time = 10;
-        while(true){
-            try{time -= 1;Thread.sleep(500);}catch(Throwable s){}
-            Intent i = new Intent(this,ControlActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_USER_ACTION);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            if(time == 0) startActivity(i);
-        }
-        
-        
+        active = true;
+        configurations = Configuration.getConfigurationList(new File(getFilesDir(),"Configs"));
     }
+    
+    @Override
+    public void onDestroy() {
+        active = false;
+    }
+        
     
     
 }
