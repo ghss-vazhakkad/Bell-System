@@ -14,6 +14,7 @@ import java.util.List;
 public class Configuration implements Serializable{
     public String label;
     public boolean active;
+    public int listLength;
     public List<TimeData> timeDataList;
     
     public Configuration(String label){
@@ -40,16 +41,19 @@ public class Configuration implements Serializable{
         if(f.exists()) f.delete();
         f.createNewFile();
         
+        this.listLength = timeDataList.size();
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
         oos.writeObject(this);
         oos.flush();
         oos.close();
+        
     }
     
     public static Configuration readFromFile(File f)throws IOException, ClassNotFoundException {
         FileInputStream fis = new FileInputStream(f);
         ObjectInputStream ois = new ObjectInputStream(fis);
         Configuration cf = (Configuration) ois.readObject();
+        ois.close();
         return cf;
     }
     
@@ -61,7 +65,7 @@ public class Configuration implements Serializable{
                 Configuration conf = readFromFile(f);
                 confs.add(conf);
             }catch(Throwable e){
-            
+                
             }
         }
         return confs;

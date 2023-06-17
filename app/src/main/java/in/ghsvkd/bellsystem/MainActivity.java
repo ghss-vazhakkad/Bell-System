@@ -29,7 +29,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivityMainBinding binding;
+    public ActivityMainBinding binding;
+    public NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_home, R.id.nav_conf, R.id.nav_sound,R.id.nav_exit)
                 .setOpenableLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         
@@ -64,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
             Configuration conf = new Configuration("Default");
             Configuration.TimeData tdata = new Configuration.TimeData();
             tdata.time = new java.util.Date();
+            tdata.sound = "asset:Bell:mp3";
+            
             conf.timeDataList.add(tdata);
             conf.writeToRoot(configs);
         }catch(Throwable e){

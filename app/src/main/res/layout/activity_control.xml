@@ -7,6 +7,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/appBar"
         android:theme="@style/Theme.Application.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
@@ -23,14 +24,15 @@
         android:id="@+id/recyclerControl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"/>
+        android:layout_below="@id/appBar"/>
     
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabControl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:src="@android:drawable/ic_input_add"
+        app:srcCompat="@android:drawable/ic_input_add"
+        android:tint="@android:color/white"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true" />
     
