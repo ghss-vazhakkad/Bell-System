@@ -35,8 +35,7 @@ public class HomeFragment extends Fragment {
                 getActivity().startService(i);
                 stageOn();
             }else{
-                Intent i = new Intent(getActivity(),AlarmService.class);
-                getActivity().stopService(i);
+                if(AlarmService.current != null) AlarmService.current.kill();
                 stageOff();         
             }
         }});

@@ -35,10 +35,11 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
     }
     @Override
     public void onBindViewHolder(ViewHolder arg0, final int arg1) {
+        arg0.itemId = arg1;
         LinearLayout weekList = arg0.binding.listWeek;
         Configuration.TimeData tData = activeTimeList.get(arg1);
         TextView time = arg0.binding.textTime;
-        time.setText(parseTime(tData.time));
+        time.setText(ControlListAdapter.parseTime(tData.time));
         
         String[] weeks = new String[]{"M","T","W","T","F","S","S"};
         for(int i = 0; i < 7;i++){
@@ -64,17 +65,10 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
     }
     
     
-    public String parseTime(java.util.Date time){
-        String out = "AM";
-        int hour = time.getHours();
-        int min = time.getMinutes();
-        if(hour > 11) { out = "PM" ; hour -= 12; if(hour == 0) hour=12 ;}
-        
-        return hour+":"+min+" "+out;
-    }
 
     @Override
     public int getItemCount() {
+        activeTimeList = ConfigurationListAdapter.lastUsed.configurationList.get(current).timeDataList;
         return activeTimeList.size();
     }
     

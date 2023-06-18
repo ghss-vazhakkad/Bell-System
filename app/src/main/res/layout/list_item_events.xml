@@ -2,7 +2,7 @@
 <LinearLayout
      xmlns:android="http://schemas.android.com/apk/res/android"
      xmlns:app="http://schemas.android.com/apk/res-auto"
-     android:layout_height="match_parent"
+     android:layout_height="wrap_content"
      android:layout_width="match_parent"
      android:orientation="vertical">
 
@@ -33,7 +33,7 @@
                      android:id="@+id/textTime"
                      android:text="12:00 PM" />
 
-                <com.malinskiy.materialicons.widget.IconButton
+                <!--Include this in future <com.malinskiy.materialicons.widget.IconButton
                      android:layout_height="40dp"
                      android:layout_width="40dp"
                      android:background="#00000000"
@@ -45,7 +45,7 @@
                      android:foreground="?android:attr/selectableItemBackground"
                      android:id="@+id/btnClose"
                      android:textStyle="bold"
-                     android:text="{zmdi-edit}" />
+                     android:text="{zmdi-edit}" /> -->
 
             </RelativeLayout>
 

@@ -109,4 +109,19 @@ public class SoundListAdapter extends RecyclerView.Adapter<SoundListAdapter.View
         }
         return soundFiles;
     }
+    
+    public static String getSoundData(String label,List<String> soundDataList){
+        String rt = null;
+        for(String s:soundDataList){
+            if(s.contains(label)){
+                return s;
+            }
+        }
+        
+        return rt;
+    }
+    
+    public static String getLabel(String str){
+        return str.substring(str.indexOf(":")+1,str.lastIndexOf(":"));
+    }
 }

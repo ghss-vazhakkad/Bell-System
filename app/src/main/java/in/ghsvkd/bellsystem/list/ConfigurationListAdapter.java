@@ -43,21 +43,20 @@ public class ConfigurationListAdapter
               @Override
               public int getMovementFlags(RecyclerView arg0, RecyclerView.ViewHolder arg1) {
                 ViewHolder vh = (ViewHolder) arg1;
-                if(configurationList.get(vh.itemId).label.equals("Default")) return 0;
                 return makeMovementFlags(0, ItemTouchHelper.LEFT);
               }
 
               @Override
               public boolean onMove(
-                  RecyclerView arg0, RecyclerView.ViewHolder arg1, RecyclerView.ViewHolder arg2) {
+                 RecyclerView arg0, RecyclerView.ViewHolder arg1, RecyclerView.ViewHolder arg2) {
 
                 return false;
               }
-
+              ViewHolder viewHolder;
               @Override
               public void onSwiped(RecyclerView.ViewHolder arg0, final int arg1) {
-                final ViewHolder viewHolder = (ViewHolder) arg0;
-                parent
+                viewHolder = (ViewHolder) arg0;
+                if(!configurationList.get(viewHolder.itemId).label.contains("Default"))parent
                     .getActivity()
                     .runOnUiThread(
                         new Runnable() {
@@ -94,12 +93,15 @@ public class ConfigurationListAdapter
                                     super.onDismissed(arg0, arg1);
                                   }
                                 });
-                            sb.show();
+                            sb.show(); 
                           }
                         });
+                    else notifyDataSetChanged();
+                    
               }
             })
         .attachToRecyclerView(parent.binding.recyclerConf);
+        
     lastUsed = this;
   }
 
@@ -120,7 +122,8 @@ public class ConfigurationListAdapter
          configurationList.get(arg1).active = ! configurationList.get(arg1).active;             
          Configuration.writeConfigurationList(new File(ctx.getFilesDir(), "Configs"),configurationList);
          notifyDataSetChanged();          
-    }});    
+    }});
+        arg0.itemId = arg1;    
   }
 
   public View.OnClickListener openEvent(final int current) {
@@ -132,9 +135,11 @@ public class ConfigurationListAdapter
       }
     };
   }
+    
 
   @Override
   public int getItemCount() {
+    Configuration.writeConfigurationList(new File(ctx.getFilesDir(), "Configs"),configurationList);
     return configurationList.size();
   }
 

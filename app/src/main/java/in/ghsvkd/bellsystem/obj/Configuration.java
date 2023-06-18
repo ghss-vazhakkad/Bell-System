@@ -1,5 +1,6 @@
 package in.ghsvkd.bellsystem.obj;
 
+import android.text.format.Time;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -8,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -27,8 +29,10 @@ public class Configuration implements Serializable{
         public Date time;
         public int[] day;
         public String sound;
+        public boolean active;
         
         public TimeData(){
+            active = true;
             day = new int[]{0,0,0,0,0,0,0};
             time = null;
             sound = null;
@@ -78,6 +82,36 @@ public class Configuration implements Serializable{
             }catch(Throwable e){
                 
             }
+        }
+    }
+    
+    public static void sortTimeData(List<TimeData> lst){
+        try{
+            int k = 0;
+        int[] timlst = new int[lst.size()];
+        for(TimeData t:lst){
+            timlst[k] = t.time.getHours()*60+t.time.getMinutes();
+            k++;
+        }
+        
+        for(int z = 0;z < timlst.length;z++){
+            for(int m = 0; m < timlst.length; m++){
+                if(m != timlst.length-1){
+                    int now = timlst[m];
+                    int next = timlst[m+1];
+                    if(next < now){
+                        timlst[m] = next;
+                        timlst[m+1] = now;
+                        TimeData nextT = lst.get(m+1);
+                        TimeData nowT = lst.get(m);
+                        lst.set(m,nextT);
+                        lst.set(m+1,nowT);
+                    }
+                }
+            }
+        }
+        }catch(Throwable e){
+            
         }
     }
 }
