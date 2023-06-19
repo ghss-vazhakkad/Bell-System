@@ -96,28 +96,16 @@ public class ControlActivity extends AppCompatActivity implements View.OnClickLi
         binding.soundSelected.setOnClickListener(new View.OnClickListener(){AlertDialog adi;public void onClick(final View v){
             AlertDialog.Builder adb = new AlertDialog.Builder(ControlActivity.this);
             adb.setTitle("Select sound");
-            LinearLayout vg = new LinearLayout(ControlActivity.this);
-            vg.setPadding(10,10,10,10);                                          
-            ListView lv = new ListView(ControlActivity.this);
-            lv.setAdapter(new ArrayAdapter<String>(ControlActivity.this,R.layout.list_item_sounds,soundData.toArray(new String[soundData.size()])){
-                public View getView(int pos,View v,ViewGroup parent){
-                    ListItemSoundsBinding binding = ListItemSoundsBinding.inflate(getLayoutInflater(),parent,false);
-                    binding.buttonPlayItem.setVisibility(View.GONE);
-                    binding.textSoundName.setText(SoundListAdapter.getLabel(getItem(pos)));
-                    binding.dividerConfig.setVisibility(View.GONE);
-                    return binding.getRoot();
-                }
-                                        
-                                        
-            });
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){@Override public void onItemClick(AdapterView<?> ad,View vi,int pos,long k){
-                ((android.widget.TextView) v).setText(SoundListAdapter.getLabel((String) ad.getItemAtPosition(pos)));
-                adi.hide();
-            }});         
-            vg.addView(lv);                   
-            adb.setView(vg);                    
+            RecyclerView rv = new RecyclerView(ControlActivity.this); 
+            SoundListAdapter adapter = new SoundListAdapter(ControlActivity.this);
+            adapter.updateText = binding.soundSelected;
+                                                                                        
+            rv.setAdapter(adapter);
+            rv.setLayoutManager(new LinearLayoutManager(ControlActivity.this));                    
+            adb.setView(rv);
+                                
             adi = adb.create();                    
-                        
+            adapter.alertText = adi;            
             adi.show();                                                                                                  
         }});                                                                                                           
     }});

@@ -1,10 +1,12 @@
 package in.ghsvkd.bellsystem.list;
 import android.app.Activity;
+import androidx.appcompat.app.AlertDialog;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.malinskiy.materialicons.Iconify;
 import com.malinskiy.materialicons.widget.IconButton;
@@ -31,32 +33,38 @@ public class SoundListAdapter extends RecyclerView.Adapter<SoundListAdapter.View
         return new ViewHolder(ListItemSoundsBinding.inflate(LayoutInflater.from(arg0.getContext()),arg0,false),arg1);
     }
     
+    public AlertDialog alertText;
 
     @Override
     public void onBindViewHolder(ViewHolder arg0, int arg1) {
         final String file = soundFiles.get(arg1);
-        String label = file.substring(file.indexOf(":")+1,file.lastIndexOf(":"));
-        final MediaPlayer mp = new MediaPlayer();
-        
-        if(file.startsWith("asset")){
-            String path = "Audio/"+label+"."+file.substring(file.lastIndexOf(":")+1);
-            try{
-                mp.setDataSource(host.getAssets().openFd(path));
-                mp.prepare();
-            }catch(IOException e){
-                label = e.getMessage();
-            }
-        }
+        final String label = file.substring(file.indexOf(":")+1,file.lastIndexOf(":"));
         
         arg0.binding.textSoundName.setText(label);
+        if(updateText != null){
+            arg0.binding.layoutSound.setOnClickListener(new View.OnClickListener(){public void onClick(View v){
+                
+                host.runOnUiThread(new Runnable(){public void run(){updateText.setText(label);alertText.dismiss();}});        
+            }});
+        }
         final IconButton playItem = arg0.binding.buttonPlayItem;
-        playItem.setOnClickListener(new View.OnClickListener(){public void onClick(View v){
+        playItem.setOnClickListener(new View.OnClickListener(){MediaPlayer mp;public void onClick(View v){
+            
+            if(mp == null){
+                 mp = new MediaPlayer();       
+                 if(file.startsWith("asset")){
+                    String path = "Audio/"+label+"."+file.substring(file.lastIndexOf(":")+1);
+                    try{
+                        mp.setDataSource(host.getAssets().openFd(path));        
+                        mp.prepare();
+                    }catch(IOException e){
+                                
+                    }
+                 }
+            }
             if(!mp.isPlaying()){
-               try{
-                    mp.prepare();
-               }catch(Throwable e){
-                    
-               }         
+                        
+                        
                mp.start();
                class OnSeekComplete implements MediaPlayer.OnCompletionListener{
                    public void onCompletion(MediaPlayer player){
@@ -79,13 +87,15 @@ public class SoundListAdapter extends RecyclerView.Adapter<SoundListAdapter.View
         return soundFiles.size();
     }
     
+    public TextView updateText;
     
     public Activity host;
-    public List<String> soundFiles;
+    public static List<String> soundFiles;
+    
     
     public SoundListAdapter(Activity host){
         this.host = host;
-        this.soundFiles = retreiveSoundFiles(host);
+        if(soundFiles == null) soundFiles = retreiveSoundFiles(host);
     }
     
     public static List<String> retreiveSoundFiles(Activity host){

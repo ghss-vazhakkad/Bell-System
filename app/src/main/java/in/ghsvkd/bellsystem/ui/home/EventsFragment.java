@@ -40,7 +40,7 @@ import in.ghsvkd.bellsystem.list.EventListAdapter.ViewHolder;
 
 public class EventsFragment extends Fragment{
 
-    FragmentEventsBinding binding;
+    public FragmentEventsBinding binding;
     List<String> soundData;
     
     @Override
@@ -72,9 +72,9 @@ public class EventsFragment extends Fragment{
                 EventsFragment.this.binding.recyclerEvents.getAdapter().notifyDataSetChanged();
             }});
             binding.timeSelected.setText(ControlListAdapter.parseTime(new java.util.Date()));
-        binding.soundSelected.setText("Bell");           
-        adb.create().show();
-        binding.timeSelected.setOnClickListener(new View.OnClickListener(){public void onClick(View v){
+            binding.soundSelected.setText("Bell");           
+            adb.create().show();
+            binding.timeSelected.setOnClickListener(new View.OnClickListener(){public void onClick(View v){
             Date k = ControlActivity.getDate(binding.timeSelected.getText()+"");
             TimePickerDialog tpd = new TimePickerDialog(getActivity(),new TimePickerDialog.OnTimeSetListener(){public void onTimeSet(TimePicker tp,int h,int m){
                 Date dt = new Date();
@@ -84,33 +84,20 @@ public class EventsFragment extends Fragment{
                 binding.timeSelected.setText(date);                                                                                                                
             }},k.getHours(),k.getMinutes(),false);
             tpd.show();                    
-        }});
+        }});            
         binding.soundSelected.setOnClickListener(new View.OnClickListener(){AlertDialog adi;public void onClick(final View v){
             AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
             adb.setTitle("Select sound");
-            LinearLayout vg = new LinearLayout(getActivity());
-            vg.setPadding(10,10,10,10);                                          
-            ListView lv = new ListView(getActivity());
-            lv.setAdapter(new ArrayAdapter<String>(getActivity(),R.layout.list_item_sounds,soundData.toArray(new String[soundData.size()])){
-                public View getView(int pos,View v,ViewGroup parent){
-                    ListItemSoundsBinding binding = ListItemSoundsBinding.inflate(getLayoutInflater(),parent,false);
-                    binding.buttonPlayItem.setVisibility(View.GONE);
-                    binding.textSoundName.setText(SoundListAdapter.getLabel(getItem(pos)));
-                    binding.dividerConfig.setVisibility(View.GONE);
-                    return binding.getRoot();
-                }
-                                        
-                                        
-            });
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){@Override public void onItemClick(AdapterView<?> ad,View vi,int pos,long k){
-                ((android.widget.TextView) v).setText(SoundListAdapter.getLabel((String) ad.getItemAtPosition(pos)));
-                adi.hide();
-                                            
-            }});         
-            vg.addView(lv);                   
-            adb.setView(vg);                    
+            RecyclerView rv = new RecyclerView(getActivity()); 
+            SoundListAdapter adapter = new SoundListAdapter(getActivity());
+            adapter.updateText = binding.soundSelected;
+                                                                                        
+            rv.setAdapter(adapter);
+            rv.setLayoutManager(new LinearLayoutManager(getActivity()));                    
+            adb.setView(rv);
+                                
             adi = adb.create();                    
-                        
+            adapter.alertText = adi;            
             adi.show();                                                                                                  
         }});        
                 

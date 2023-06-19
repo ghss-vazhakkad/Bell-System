@@ -3,6 +3,10 @@
      xmlns:android="http://schemas.android.com/apk/res/android"
      xmlns:app="http://schemas.android.com/apk/res-auto"
      android:layout_height="50dp"
+     android:background="?android:attr/selectableItemBackground"
+     android:id="@+id/layoutSound"
+     android:clickable="true"
+     android:focusable="true"
      android:layout_width="match_parent">
 
     <com.malinskiy.materialicons.widget.IconButton
