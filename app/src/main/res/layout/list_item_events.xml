@@ -33,7 +33,7 @@
                      android:id="@+id/textTime"
                      android:text="12:00 PM" />
 
-                <!--Include this in future <com.malinskiy.materialicons.widget.IconButton
+                <com.malinskiy.materialicons.widget.IconButton
                      android:layout_height="40dp"
                      android:layout_width="40dp"
                      android:background="#00000000"
@@ -43,9 +43,9 @@
                      android:layout_marginTop="10dp"
                      android:layout_alignParentRight="true"
                      android:foreground="?android:attr/selectableItemBackground"
-                     android:id="@+id/btnClose"
+                     android:id="@+id/btnEdit"
                      android:textStyle="bold"
-                     android:text="{zmdi-edit}" /> -->
+                     android:text="{zmdi-edit}" /> 
 
             </RelativeLayout>
 

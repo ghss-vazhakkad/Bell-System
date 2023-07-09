@@ -41,7 +41,8 @@ import in.ghsvkd.bellsystem.list.EventListAdapter.ViewHolder;
 public class EventsFragment extends Fragment{
 
     public FragmentEventsBinding binding;
-    List<String> soundData;
+    public List<String> soundData;
+    
     
     @Override
     @MainThread
@@ -127,6 +128,8 @@ public class EventsFragment extends Fragment{
                             
                           boolean isCorrect = true;
                           public void run() {
+                            final Configuration.TimeData tData = lastUsed.configurationList.get(lastUsed.lastCheck).timeDataList.get(viewHolder.itemId);
+                            lastUsed.configurationList.get(lastUsed.lastCheck).timeDataList.remove(tData);
                             Snackbar sb =
                                 Snackbar.make(
                                     binding.getRoot(),
@@ -147,20 +150,22 @@ public class EventsFragment extends Fragment{
 
                                   @Override
                                   public void onDismissed(Snackbar arg0, int arg1) {
-                                    if(isCorrect){ 
-                                       Configuration.TimeData t = lastUsed.configurationList.get(lastUsed.lastCheck).timeDataList.get(viewHolder.itemId);
-                                       lastUsed.configurationList.get(lastUsed.lastCheck).timeDataList.remove(t);
-                                       binding.recyclerEvents.getAdapter().notifyDataSetChanged();  
+                                            
+                                    if(!isCorrect){ 
+                                       lastUsed.configurationList.get(lastUsed.lastCheck).timeDataList.add(tData);
+                                       Configuration.sortTimeData(lastUsed.configurationList.get(lastUsed.lastCheck).timeDataList);         
                                     }
+                                    binding.recyclerEvents.getAdapter().notifyDataSetChanged();  
                                     
                                     super.onDismissed(arg0, arg1);
                                   }
                                 });
                             sb.setDuration(800);
-                                    
+                            binding.recyclerEvents.getAdapter().notifyDataSetChanged();  
                             sb.show(); 
                           }
                         });
+                    
                     
               }
             })

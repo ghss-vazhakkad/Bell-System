@@ -48,10 +48,15 @@ public class AlarmService extends Service {
       if (c.active) {
         for (int x = 0; x < c.timeDataList.size(); x++) {
           Configuration.TimeData tdata = c.timeDataList.get(x);
+          
+          Date cdate = new Date();
+          int ttime = tdata.time.getHours()*60+tdata.time.getMinutes();
+          int ctime = cdate.getHours()*60+cdate.getMinutes();
+                              
           int week = today.getDay();
           week = week-1;
           if(week == -1) week = 6;                              
-          if (tdata.day[week] == 1) timeDataList.add(tdata);
+          if (tdata.day[week] == 1 && ttime > ctime) timeDataList.add(tdata);
         }
       }
     }

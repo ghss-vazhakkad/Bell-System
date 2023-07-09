@@ -51,7 +51,7 @@ public class ControlActivity extends AppCompatActivity implements View.OnClickLi
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         
     binding.recyclerControl.setLayoutManager(new LinearLayoutManager(this));
-    binding.recyclerControl.setAdapter(new ControlListAdapter());
+    binding.recyclerControl.setAdapter(new ControlListAdapter(this));
     soundData = SoundListAdapter.retreiveSoundFiles(this);
         binding.fabControl.setOnClickListener(new View.OnClickListener(){public void onClick(View v){
         AlertDialog.Builder adb = new AlertDialog.Builder(ControlActivity.this);
